@@ -1,5 +1,7 @@
 # Basic ZFS module. Goal is to be nondestructive and simply import existing pools.
 
+{ config, envVars, pkgs, ... }:
+
 {
     services.zfs.enable = true;
 
