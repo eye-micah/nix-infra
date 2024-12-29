@@ -5,10 +5,15 @@
 {
 
     boot.supportedFilesystems = [ "zfs" ];
-    boot.zfs.enableUnstable = true;
-    boot.zfs.forceImport = true;
+    boot.zfs.package = pkgs.zfs_unstable;
 
-    services.zfs.enable = true;
+    systemd.services.zfs-import = {
+        enable = true;
+        wantedBy = [ "multi-user.target" ];
+        description = "ZFS Pool Import";
+        serviceConfig.ExecStart = "${pkgs.zfs}/bin/zpool import ${envVars.zfsSolidStatePool}";
+        serviceConfig.ExecStop = "${pkgs.zfs}/bin/zpool export ${envVars.zfsSolidStatePool}";
+    };
 
     systemd.timers.zfs-scrub = {
         enable = true;

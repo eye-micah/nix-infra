@@ -1,0 +1,1 @@
+I have yet to figure out a proper method of partitioning within Nix. I have settled for an as-simple-as-possible label-based setup where you are expected to use parted to set up labels NIXROOT and NIXBOOT.

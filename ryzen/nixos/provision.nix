@@ -1,10 +1,19 @@
-{ config, inputs, envVars, pkgs, ... }:
+{ inputs, envVars, pkgs, ... }:
 
 {
 
     environment.systemPackages = [
         inputs.compose2nix.packages.x86_64-linux.default
     ];
+
+		virtualisation = {
+			containers.enable = true;
+			podman = {
+				enable = true;
+				dockerCompat = true;
+				defaultNetwork.settings.dns_enabled = true;
+			};
+		};
 
     virtualisation.docker.enable = true;
 
