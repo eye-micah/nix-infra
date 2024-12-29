@@ -1,4 +1,4 @@
-{ config, envVars, pkgs, ... }:
+{ config, inputs, envVars, pkgs, ... }:
 
 {
 
@@ -20,6 +20,6 @@
         };
     };
 
-    users.users.${rootlessDockerUser}.extraGroups = [ "docker" ];
+    users.users.${envVars.rootlessDockerUser}.extraGroups = [ "docker" ];
 
 }
