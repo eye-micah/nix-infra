@@ -7,6 +7,7 @@
             url = "github:aksiksi/compose2nix";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        agenix.url = "github:ryantm/agenix";
     };
 
     outputs = { self, nixpkgs, agenix, ... } @ inputs: let
@@ -20,8 +21,7 @@
                 system = "x86_64-linux";
                 specialArgs = { inherit inputs outputs; };
                 modules = [
-                    ./configuration.ni
-                    
+                    ./configuration.nix
                     agenix.nixosModules.default
                 ];
             };
