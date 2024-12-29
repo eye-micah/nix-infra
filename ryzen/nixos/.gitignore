@@ -4,5 +4,5 @@ secret-vars.age
 ./secret-vars.age
 .DS_Store
 ./secrets/*
-secrets/
-secrets/*
+#secrets/
+#secrets/*
