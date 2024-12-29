@@ -4,4 +4,6 @@
     rootlessDockerUser = "container";
 
     systemHostname = "ryzen";
+
+    adminUser = "micah";
 }

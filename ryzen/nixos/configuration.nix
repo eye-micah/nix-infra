@@ -9,8 +9,12 @@
 
 let
   envVars = import ./env-vars.nix; 
+  secretVars = import ./secret-vars.age;
 in
 {
+
+  environment.etc."secret-vars.nix".source = "./secret-vars.age";
+
   imports = [
     ./hardware-configuration.nix
     ./bootloader.nix
@@ -18,6 +22,8 @@ in
     # ./provision.nix 
     (import ./provision.nix { inherit envVars pkgs inputs; })
   ];
+
+  environment.systemPackages = with pkgs; [ agenix zfs ];
 
   networking = {
     hostId = "009f33be";
@@ -40,16 +46,15 @@ in
       isSystemUser = true;
       shell = pkgs.zsh;
       extraGroups = [ "wheel" ];
-      hashedPassword = ${secretVars.adminPassword};	
+      hashedPassword = "${secretVars.adminPassword}";	
       uid = 1000;
-    }
+    };
 
     users.${envVars.rootlessDockerUser} = {
       isNormalUser = true;
       shell = pkgs.bash;
       extraGroups = [ "video" "render" ];
-      hashedPassword = ${secretVars.dockerUserPassword};
       uid = 1001;
-    }
+    };
+  };
 }
-
