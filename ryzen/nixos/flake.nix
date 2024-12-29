@@ -9,7 +9,7 @@
         };
     };
 
-    outputs = { self, nixpkgs, ... } @ inputs: let
+    outputs = { self, nixpkgs, agenix, ... } @ inputs: let
         inherit (self) outputs;
         systems = [
             "x86_64-linux"
@@ -20,7 +20,9 @@
                 system = "x86_64-linux";
                 specialArgs = { inherit inputs outputs; };
                 modules = [
-                    ./configuration.nix
+                    ./configuration.ni
+                    
+                    agenix.nixosModules.default
                 ];
             };
         };

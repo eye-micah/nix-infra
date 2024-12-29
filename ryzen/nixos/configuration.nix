@@ -20,7 +20,7 @@ in
     ./bootloader.nix
     ./zfs.nix
     # ./provision.nix 
-    (import ./provision.nix { inherit envVars pkgs inputs; })
+    # (import ./provision.nix { inherit envVars pkgs inputs; })
   ];
 
   environment.systemPackages = with pkgs; [ agenix zfs ];
