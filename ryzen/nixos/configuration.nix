@@ -9,7 +9,7 @@
 
 let
   envVars = import ./env-vars.nix; 
-  secretVars = import ./secret-vars.age;
+  secretVars = import ./secret-vars.nix;
 in
 {
 
