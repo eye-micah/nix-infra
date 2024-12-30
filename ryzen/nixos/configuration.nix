@@ -9,16 +9,16 @@
 
 let
   envVars = import ./env-vars.nix; 
-  secretVars = import ./secret-vars.age;
+  secretVars = import ./secrets/secret-vars.age;
 in
 {
 
-  environment.etc."secret-vars.nix".source = "./secret-vars.age";
+  environment.etc."secret-vars.nix".source = "./secrets/secret-vars.age";
 
   imports = [
     ./hardware-configuration.nix
-    ./bootloader.nix
-    ./zfs.nix
+    ./modules/bootloader.nix
+    ./modules/zfs.nix
     # ./provision.nix 
     # (import ./provision.nix { inherit envVars pkgs inputs; })
   ];
