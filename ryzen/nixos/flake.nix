@@ -15,11 +15,12 @@
         systems = [
             "x86_64-linux"
         ];
+        envVars = import ./env-vars.nix; # Non-secret environment variables.
     in {
         nixosConfigurations = {
             ryzen = nixpkgs.lib.nixosSystem {
                 system = "x86_64-linux";
-                specialArgs = { inherit inputs outputs; };
+                specialArgs = { inherit inputs outputs envVars; };
                 modules = [
                     ./configuration.nix
                     agenix.nixosModules.default

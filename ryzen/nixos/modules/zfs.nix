@@ -1,42 +1,54 @@
-# Basic ZFS module. Goal is to be nondestructive and simply import existing pools.
-
 { config, envVars, pkgs, ... }:
 
 {
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.package = pkgs.zfs_unstable;
 
-    boot.supportedFilesystems = [ "zfs" ];
-    boot.zfs.package = pkgs.zfs_unstable;
-
-    systemd.services.zfs-import = {
-        enable = true;
-        wantedBy = [ "multi-user.target" ];
-        description = "ZFS Pool Import";
-        serviceConfig.ExecStart = "${pkgs.zfs}/bin/zpool import ${envVars.zfsSolidStatePool}";
-        serviceConfig.ExecStop = "${pkgs.zfs}/bin/zpool export ${envVars.zfsSolidStatePool}";
+  systemd.services.zfs-import = {
+    enable = true;
+    wantedBy = [ "multi-user.target" ];
+    description = "ZFS Pool Import";
+    serviceConfig = {
+      ExecStart = "${pkgs.zfs}/bin/zpool import ${envVars.zfsSolidStatePool}";
+      ExecStop = "${pkgs.zfs}/bin/zpool export ${envVars.zfsSolidStatePool}";
     };
+  };
 
-    systemd.timers.zfs-scrub = {
-        enable = true;
-        # Set the frequency of the scrub (e.g., once a month)
-        timerConfig = {
-        OnCalendar = "weekly";  # Or use "weekly", "daily", etc.
-        };
-        serviceConfig.ExecStart = "${pkgs.zfs}/bin/zpool scrub ${envVars.zfsSolidStatePool}";  # Adjust the pool name if needed
+  # Define the zfs-scrub service
+  systemd.services.zfs-scrub = {
+    description = "ZFS Pool Scrub";
+    serviceConfig = {
+      ExecStart = "${pkgs.zfs}/bin/zpool scrub ${envVars.zfsSolidStatePool}";
     };
+  };
 
-    # Enable ZFS trim timer (for SSDs)
-    systemd.timers.zfs-trim = {
-        enable = true;
-        # Set the frequency of the trim (e.g., once a month)
-        timerConfig = {
-        OnCalendar = "weekly";  # Or adjust this to your preferred schedule
-        };
-        serviceConfig.ExecStart = "${pkgs.zfs}/bin/zpool trim ${envVars.zfsSolidStatePool}";
+  # Define the zfs-scrub timer
+  systemd.timers.zfs-scrub = {
+    description = "ZFS Pool Scrub Timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "weekly"; # Set the desired schedule
     };
+  };
 
-    environment.systemPackages = with pkgs; [
-        zfs
-        zfsutils
-    ];
+  # Define the zfs-trim service
+  systemd.services.zfs-trim = {
+    description = "ZFS Pool Trim";
+    serviceConfig = {
+      ExecStart = "${pkgs.zfs}/bin/zpool trim ${envVars.zfsSolidStatePool}";
+    };
+  };
 
+  # Define the zfs-trim timer
+  systemd.timers.zfs-trim = {
+    description = "ZFS Pool Trim Timer";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "weekly"; # Set the desired schedule
+    };
+  };
+
+  environment.systemPackages = with pkgs; [
+    zfs
+  ];
 }

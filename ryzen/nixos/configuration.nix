@@ -9,11 +9,8 @@
 
 let
   envVars = import ./env-vars.nix; 
-  secretVars = import ./secret-vars.nix;
 in
 {
-
-  environment.etc."secret-vars.nix".source = "./secrets/secret-vars.age";
 
   imports = [
     ./hardware-configuration.nix
@@ -24,16 +21,18 @@ in
     # (import ./provision.nix { inherit envVars pkgs inputs; })
   ];
 
-  age.secrets = {
-    "secret-vars.age" = {
-      file = ./secret-vars.age;
-      recipients = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFQy6Jw3QC3ADSbNdRZZSTZMOwB7o/+SQatG4Er2gtC micah@haruka.tail8d76a.ts.net"
-      ];
-    };
-  };
+#  age.secrets = {
+#    "secret-vars.age" = {
+#      file = ./secret-vars.age;
+#      recipients = [
+#        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFQy6Jw3QC3ADSbNdRZZSTZMOwB7o/+SQatG4Er2gtC micah@haruka.tail8d76a.ts.net"
+#      ];
+#    };
+#  };
 
-  environment.systemPackages = with pkgs; [ agenix zfs ];
+#  environment.systemPackages = with pkgs; [ agenix zfs ];
+
+  nixpkgs.config.allowUnfree = true;
 
   networking = {
     hostId = "009f33be";
@@ -52,12 +51,14 @@ in
   };
 
   users = {
+    groups.${envVars.adminUser} = {};
     users.${envVars.adminUser} = {
       isSystemUser = true;
       shell = pkgs.zsh;
       extraGroups = [ "wheel" ];
-      hashedPassword = "${secretVars.adminPassword}";	
+      #hashedPassword = "${secretVars.adminPassword}";	
       uid = 1000;
+      group = "${envVars.adminUser}";
     };
 
     users.${envVars.rootlessDockerUser} = {
