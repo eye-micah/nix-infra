@@ -8,6 +8,7 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
         agenix.url = "github:ryantm/agenix";
+        agenix.inputs.nixpkgs.follows = "nixpkgs";
     };
 
     outputs = { self, nixpkgs, agenix, ... } @ inputs: let
@@ -15,15 +16,22 @@
         systems = [
             "x86_64-linux"
         ];
+        overlays = [ agenix.overlay ];
+
+        pkgs = import nixpkgs {
+            inherit overlays ;
+            config = { allowUnfree = true; };
+        };
+
         envVars = import ./env-vars.nix; # Non-secret environment variables.
     in {
         nixosConfigurations = {
             ryzen = nixpkgs.lib.nixosSystem {
                 system = "x86_64-linux";
-                specialArgs = { inherit inputs outputs envVars; };
+                specialArgs = { inherit inputs outputs envVars agenix ; };
                 modules = [
                     ./configuration.nix
-                    agenix.nixosModules.default
+                    agenix.nixosModules.age
                 ];
             };
         };
