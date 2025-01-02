@@ -13,6 +13,7 @@ in
 {
 
   imports = [
+    ./modules/disk-config.nix
     # ./hardware-configuration.nix
     #./modules/bootloader.nix
     # ./modules/agenix.nix
