@@ -10,7 +10,7 @@
     options = [ "defaults" "discard" "noatime" ];
   };
 
-  fileSystems."/boot" = {
+  fileSystems."/boot/efi" = {
     device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat"; # FAT32 is required for UEFI compatibility
     options = [ "defaults" "noatime" ];
