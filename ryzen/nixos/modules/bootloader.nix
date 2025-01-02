@@ -1,22 +1,31 @@
 { config, lib, pkgs, ... }:
+
 {
-  # Bootloader configuration for systemd-boot (UEFI only)
+  # Bootloader configuration for GRUB (UEFI only)
   boot.loader = {
-    systemd-boot.enable = true;
+    grub = {
+      enable = true;
+      version = 2;  # Use GRUB 2
+      efiSupport = true;  # Enable UEFI support
+      efiInstallAsRemovable = false;  # Optional: Can be true if installing in a removable EFI partition
+      device = "nodev";  # Use the appropriate disk for UEFI boot (usually the main disk)
+    };
+
+    # EFI system partition setup
     efi = {
       canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi"; # EFI system partition mount point
+      efiSysMountPoint = "/boot/efi";  # Mount point for the EFI system partition
     };
   };
 
-  # Ensure the EFI system partition is properly mounted
+  # Ensure the EFI system partition is mounted correctly
   fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-label/NIXBOOT"; # Replace with the actual label of your EFI partition
-    fsType = "vfat";
+    device = "/dev/disk/by-label/NIXBOOT";  # Replace with the actual label of your EFI partition
+    fsType = "vfat";  # UEFI system partition is usually formatted as vfat
   };
 
   # Kernel parameters for boot customization
   boot.kernelParams = [ "loglevel=4" "quiet" ];
-
 }
+
 
