@@ -5,13 +5,13 @@
 
   # Filesystem configuration
   fileSystems."/" = {
-    device = "/dev/sda2";
+    device = "327c54d8-b2d9-4378-85d7-8ddc4d63da91";
     fsType = "ext4";
     options = [ "defaults" "discard" "noatime" ];
   };
 
   fileSystems."/boot/efi" = {
-    device = "/dev/sda1";
+    device = "UUID=12CE-A600";
     fsType = "vfat"; # FAT32 is required for UEFI compatibility
     options = [ "defaults" "noatime" ];
   };

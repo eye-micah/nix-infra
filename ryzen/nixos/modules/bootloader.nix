@@ -20,7 +20,7 @@
 
   # Ensure the EFI system partition is mounted correctly
   fileSystems."/boot/efi" = {
-    device = "/dev/sda1";  # Replace with the actual label of your EFI partition
+    device = "UUID=12CE-A600";  # Replace with the actual label of your EFI partition
     fsType = "vfat";  # UEFI system partition is usually formatted as vfat
   };
 
