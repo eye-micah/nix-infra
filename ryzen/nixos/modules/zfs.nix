@@ -1,7 +1,7 @@
 { config, envVars, pkgs, ... }:
 
 {
-  boot.supportedFilesystems = [ "zfs" ];
+  boot.supportedFilesystems = [ "ext4" "vfat" "zfs" ];
   boot.zfs.package = pkgs.zfs_unstable;
 
   systemd.services.zfs-import = {
