@@ -4,7 +4,6 @@
   boot.loader = {
     systemd-boot.enable = true;
     efi = {
-      enable = true;
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi"; # EFI system partition mount point
     };
