@@ -5,7 +5,7 @@
 
   # Filesystem configuration
   fileSystems."/" = {
-    device = "327c54d8-b2d9-4378-85d7-8ddc4d63da91";
+    device = "UUID=327c54d8-b2d9-4378-85d7-8ddc4d63da91";
     fsType = "ext4";
     options = [ "defaults" "discard" "noatime" ];
   };
