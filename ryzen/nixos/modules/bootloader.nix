@@ -8,7 +8,7 @@
       version = 2;  # Use GRUB 2
       efiSupport = true;  # Enable UEFI support
       efiInstallAsRemovable = false;  # Optional: Can be true if installing in a removable EFI partition
-      device = "nodev";  # Use the appropriate disk for UEFI boot (usually the main disk)
+      device = "sda";  # Use the appropriate disk for UEFI boot (usually the main disk)
     };
 
     # EFI system partition setup
@@ -20,7 +20,7 @@
 
   # Ensure the EFI system partition is mounted correctly
   fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-label/NIXBOOT";  # Replace with the actual label of your EFI partition
+    device = "/dev/sda1";  # Replace with the actual label of your EFI partition
     fsType = "vfat";  # UEFI system partition is usually formatted as vfat
   };
 
