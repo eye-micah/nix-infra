@@ -11,7 +11,7 @@
 
   # Ensure the EFI system partition is properly mounted
   fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-label/NIXBOOT"; # Replace with the actual label of your EFI partition
+    device = "LABEL=NIXBOOT"; # Replace with the actual label of your EFI partition
     fsType = "vfat";
   };
 
