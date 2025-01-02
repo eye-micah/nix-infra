@@ -5,13 +5,13 @@
 
   # Filesystem configuration
   fileSystems."/" = {
-    device = "LABEL=NIXROOT";
+    device = "/dev/disk/by-label/NIXROOT";
     fsType = "ext4";
     options = [ "defaults" "discard" "noatime" ];
   };
 
   fileSystems."/boot/efi" = {
-    device = "LABEL=NIXBOOT";
+    device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat"; # FAT32 is required for UEFI compatibility
     options = [ "defaults" "noatime" ];
   };
