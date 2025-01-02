@@ -22,4 +22,9 @@
 
   # Enable hardware support
   hardware.enableAllFirmware = true;
+
+  boot.initrd = { 
+    udev.enable = true;
+    supportedFilesystems = [ "vfat" "ext4" "zfs" ];
+  };
 }
