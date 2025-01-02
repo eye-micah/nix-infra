@@ -14,7 +14,7 @@ in
 
   imports = [
     ./hardware-configuration.nix
-    ./modules/bootloader.nix
+    #./modules/bootloader.nix
     # ./modules/agenix.nix
     ./modules/zfs.nix
     # ./provision.nix 
