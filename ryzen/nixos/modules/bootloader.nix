@@ -8,7 +8,7 @@ in
     enable = true;
     version = 2;
     efiSupport = isUEFI;
-    devices = if isUEFI then [ "nodev" ] else [ "/dev/sda" ];
+    devices = if isUEFI then [ "nodev" ] else [ "LABEL=NIXBOOT" ];
     enableCryptodisk = false; # or make configurable
   };
   # Kernel parameters
