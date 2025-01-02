@@ -8,7 +8,7 @@
       version = 2;  # Use GRUB 2
       efiSupport = true;  # Enable UEFI support
       efiInstallAsRemovable = false;  # Optional: Can be true if installing in a removable EFI partition
-      device = "sda";  # Use the appropriate disk for UEFI boot (usually the main disk)
+      device = "nodev";  # Use the appropriate disk for UEFI boot (usually the main disk)
     };
 
     # EFI system partition setup
