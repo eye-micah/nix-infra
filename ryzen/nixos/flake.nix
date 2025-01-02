@@ -12,14 +12,18 @@
 
     disko.url = "github:nix-community/disko/latest";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+    nixos-facter-modules.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
-  outputs = { self, nixpkgs, agenix, disko, ... } @ inputs: let
+  outputs = { self, nixpkgs, agenix, disko, nixos-facter-modules, ... } @ inputs: let
     inherit (self) outputs;
     systems = [
       "x86_64-linux"
     ];
-    overlays = [ agenix.overlay disko.overlay ];
+    overlays = [ agenix.overlay disko.overlay nixos-facter-modules.overlay ];
 
     pkgs = import nixpkgs {
       inherit overlays;
@@ -34,10 +38,12 @@
         specialArgs = { inherit inputs outputs envVars agenix; };
         modules = [
           ./configuration.nix
-          nixos-facter-modules.nixosModules.facter
-+         { config.facter.reportPath = ./facter.json }
           agenix.nixosModules.age
           disko.nixosModules.disko
+          nixos-facter-modules.nixosModules.facter
+          { 
+            config.facter.reportPath = ./facter.json;
+          }
         ];
       };
     };
