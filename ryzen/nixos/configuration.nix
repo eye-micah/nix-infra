@@ -13,6 +13,7 @@ in
 {
 
   imports = [
+    ./modules/disko.nix
     ./hardware-configuration.nix
     #./modules/bootloader.nix
     # ./modules/agenix.nix
@@ -31,6 +32,8 @@ in
 #  };
 
 #  environment.systemPackages = with pkgs; [ agenix zfs ];
+
+  disko.devices.disk.main.device = "/dev/sda";
 
   nixpkgs.config.allowUnfree = true;
 

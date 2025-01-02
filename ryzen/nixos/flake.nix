@@ -9,14 +9,17 @@
         };
         agenix.url = "github:ryantm/agenix";
         agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+        disko.url = "github:nix-community/disko/latest";
+        disko.inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    outputs = { self, nixpkgs, agenix, ... } @ inputs: let
+    outputs = { self, nixpkgs, agenix, disko, ... } @ inputs: let
         inherit (self) outputs;
         systems = [
             "x86_64-linux"
         ];
-        overlays = [ agenix.overlay ];
+        overlays = [ agenix.overlay disko.overlay ];
 
         pkgs = import nixpkgs {
             inherit overlays ;
@@ -32,6 +35,7 @@
                 modules = [
                     ./configuration.nix
                     agenix.nixosModules.age
+                    disko.nixosModules.disko
                 ];
             };
         };

@@ -6,31 +6,6 @@
     disko
   ];
 
-  disko = {
-      # Define the disk layout for partitioning
-      disks = {
-        "/dev/sda" = {
-          # EFI partition
-          partitions = {
-            "EFI" = {
-              mountPoint = "/boot/efi";
-              size = "512M";
-              fsType = "vfat";
-              label = "NIXBOOT";  # Label the partition
-              bootable = true;
-            };
-
-            # Root partition
-            "root" = {
-              mountPoint = "/";
-              size = "100%";  # Use the remaining space after the EFI partition
-              fsType = "ext4";
-              label = "NIXROOT";  # Label the partition
-            };
-          };
-        };
-      };
-  };
   # Bootloader configuration for GRUB (UEFI only)
   boot.loader = {
     grub = {
@@ -46,20 +21,6 @@
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi";  # Mount point for the EFI system partition
     };
-  };
-
-  # Ensure the EFI system partition is mounted correctly
-  fileSystems."/boot/efi" = {
-    device = "/dev/disk/by-partlabel/NIXBOOT";  # Replace with the actual label of your EFI partition
-    fsType = "vfat";  # UEFI system partition is usually formatted as vfat
-    options = [ "defaults" "noatime" ];
-  };
-
-  # Filesystem configuration for root partition
-  fileSystems."/" = {
-    device = "/dev/disk/by-partlabel/NIXROOT";
-    fsType = "ext4";
-    options = [ "defaults" "discard" "noatime" ];
   };
 
   # Swap settings (if needed, adjust to match your system's swap configuration)
