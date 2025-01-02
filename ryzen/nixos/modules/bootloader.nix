@@ -1,9 +1,13 @@
 { config, lib, pkgs, ... }:
 {
   # Bootloader configuration for systemd-boot (UEFI only)
-  boot.loader.systemd-boot = {
-    enable = true;
-    efiSysMountPoint = "/boot/efi"; # EFI system partition mount point
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi = {
+      enable = true;
+      canTouchEfiVariables = true;
+      efiSysMountPoint = "/boot/efi"; # EFI system partition mount point
+    };
   };
 
   # Ensure the EFI system partition is properly mounted
@@ -11,6 +15,8 @@
     device = "/dev/disk/by-label/NIXBOOT"; # Replace with the actual label of your EFI partition
     fsType = "vfat";
   };
+
+
 
   # Kernel parameters for boot customization
   boot.kernelParams = [ "loglevel=4" "quiet" ];
