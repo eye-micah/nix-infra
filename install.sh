@@ -15,7 +15,9 @@ git pull
 
 # Run the NixOS installation with the specified flake
 echo "Running nixos-install with flake '.#ryzen'..."
-nixos-install --flake .#ryzen --debug
+#nixos-install --flake .#ryzen --debug
+#disko-install 
+nix run 'github:nix-community/disko/latest#disko-install' -- --write-efi-boot-entries --flake '.#ryzen' --disk main /dev/sda
 
 # Display the EFI boot manager entries
 echo "Checking EFI boot manager entries..."
