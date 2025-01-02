@@ -1,28 +1,52 @@
+# Example to create a bios compatible gpt partition
+{ lib, ... }:
 {
   disko.devices = {
-    disk = {
+    disk.disk1 = {
+      device = lib.mkDefault "/dev/sda";
       type = "disk";
-      device = "/dev/sda";
       content = {
         type = "gpt";
         partitions = {
-          efi = {
-            start = "0";
-            size = "512MiB";
-            type = "efi";
+          boot = {
+            name = "boot";
+            size = "1M";
+            type = "EF02";
+          };
+          esp = {
+            name = "ESP";
+            size = "500M";
+            type = "EF00";
             content = {
               type = "filesystem";
               format = "vfat";
-              mountPoint = "/boot/efi";
+              mountpoint = "/boot";
             };
           };
           root = {
-            start = "512MiB";
-            type = "primary";
+            name = "root";
+            size = "100%";
+            content = {
+              type = "lvm_pv";
+              vg = "pool";
+            };
+          };
+        };
+      };
+    };
+    lvm_vg = {
+      pool = {
+        type = "lvm_vg";
+        lvs = {
+          root = {
+            size = "100%FREE";
             content = {
               type = "filesystem";
               format = "ext4";
-              mountPoint = "/";
+              mountpoint = "/";
+              mountOptions = [
+                "defaults"
+              ];
             };
           };
         };
