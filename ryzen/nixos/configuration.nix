@@ -72,4 +72,8 @@ in
       uid = 1001;
     };
   };
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
 }
