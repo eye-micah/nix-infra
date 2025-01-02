@@ -1,13 +1,9 @@
 { config, lib, pkgs, ... }:
 {
-  # Bootloader configuration for UEFI only
-  boot.loader.grub = {
+  # Bootloader configuration for systemd-boot (UEFI only)
+  boot.loader.systemd-boot = {
     enable = true;
-    version = 2;
-    efiSupport = true;
-    devices = [ "nodev" ]; # No specific device needed for UEFI
-    enableCryptodisk = false; # Set to true if using encrypted disks
-    efiInstallAsRemovable = true; # Ensures compatibility with systems requiring removable media boot
+    efiSysMountPoint = "/boot/efi"; # EFI system partition mount point
   };
 
   # Ensure the EFI system partition is properly mounted
@@ -19,10 +15,11 @@
   # Kernel parameters for boot customization
   boot.kernelParams = [ "loglevel=4" "quiet" ];
 
-  # System fails if not booted via UEFI
+  # Assertions to ensure the system is UEFI-only
   assertions = [
     { assertion = builtins.pathExists "/sys/firmware/efi";
       message = "This system requires UEFI firmware to boot.";
     }
   ];
 }
+
