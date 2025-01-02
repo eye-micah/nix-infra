@@ -6,3 +6,4 @@ secret-vars.age
 ./secrets/*
 #secrets/
 #secrets/*
+./*/hardware-configuration.nix

@@ -60,6 +60,7 @@ in
       shell = pkgs.zsh;
       extraGroups = [ "wheel" ];
       #hashedPassword = "${secretVars.adminPassword}";	
+      hashedPassword = "$6$ytTUaT6RAM9I75hu$nzRy./0A7Xz8EiUG1Bn/PBQvSS5Ng7Ui5STlm0Yt1keVFh2d2tjYZjuYGmoY36irrAZdDoEDjDoQRdPT0vNb9/";
       uid = 1000;
       group = "${envVars.adminUser}";
     };
