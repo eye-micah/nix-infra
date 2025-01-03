@@ -16,10 +16,9 @@
       micah = home-manager.lib.homeManagerConfiguration {
         pkgs = import nixpkgs { system = "x86_64-linux"; };
         modules = [
+          ./linux.nix
           ./home.nix
         ];
-        # Set home.homeDirectory only for Linux
-        home.homeDirectory = "/home/micah"; # Update if needed for Linux
       };
     };
 
