@@ -37,6 +37,7 @@
   home.file.".zshenv".source = ./dotfiles/zshenv;
   home.file.".zshrc".source = ./dotfiles/zshrc;
   home.file.".zsh_plugins.txt".source = ./dotfiles/zsh_plugins.txt;
+  home.file.".vimrc".source = ./dotfiles/vimrc;
 
   ## Aliases
   programs.zsh = {
