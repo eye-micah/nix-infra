@@ -1,5 +1,5 @@
 {
-  description = "Darwin configuration";
+  description = "Darwin and Home Manager configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -11,19 +11,21 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, darwin, agenix, ... }: {
+    # Home Manager configuration for Linux
     homeConfigurations = {
       micah = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        users = {
-          micah = import ./home.nix;
-        };
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
+        modules = [
+          ./home.nix
+        ];
       };
     };
+
+    # nix-darwin configuration for macOS
     darwinConfigurations = {
       haruka = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
-          #./configuration.nix
           ./darwin.nix
           agenix.nixosModules.default
           {
@@ -31,14 +33,10 @@
           }
           home-manager.darwinModules.home-manager
           {
-            users.users.micah.home = "/Users/micah";
+            # nix-darwin with Home Manager integration
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.micah = import ./home.nix ;
-            
-            # Optionally, use home-manager.extraSpecialArgs to pass
-
-            # arguments to home.nix
+            home-manager.users.micah = import ./home.nix;
           }
         ];
       };
