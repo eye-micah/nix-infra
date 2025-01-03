@@ -11,8 +11,18 @@
     pkgs.zsh
   ];
 
-  home.homeDirectory = builtins.toPath "/Users/micah";
+  # Platform-specific adjustments
+  platformSpecificPackages = if system == "darwin" then
+    [ pkgs.zenity ] # Example of a macOS-only package
+  else
+    [ pkgs.git ];   # Example of a Linux-only package
+
   home.username = "micah";
+
+  home.homeDirectory = if system == "darwin" then
+    "/Users/micah"
+  else
+    "/home/micah";
 
   programs.home-manager.enable = true;
 

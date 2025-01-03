@@ -11,6 +11,16 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, darwin, agenix, ... }: {
+    linuxConfigurations = {
+      micah = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        users = {
+          micah = import ./home.nix {
+            system = "linux";
+          };
+        };
+      };
+    };
     darwinConfigurations = {
       haruka = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
@@ -26,7 +36,7 @@
             users.users.micah.home = "/Users/micah";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.micah = import ./home.nix;
+            home-manager.users.micah = import ./home.nix { system = "darwin"; };
             
             # Optionally, use home-manager.extraSpecialArgs to pass
 
