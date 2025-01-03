@@ -52,6 +52,6 @@
             agenix.nixosModules.age
             ./lxc.nix
         ]
-      }
+      };
   };
 }
