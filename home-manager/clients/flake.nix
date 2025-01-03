@@ -11,7 +11,7 @@
   };
 
   outputs = inputs@{ nixpkgs, home-manager, darwin, agenix, ... }: {
-    linuxConfigurations = {
+    homeConfigurations = {
       micah = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
         users = {
