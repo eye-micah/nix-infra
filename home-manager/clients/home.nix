@@ -6,7 +6,6 @@
   home.packages = [
     pkgs.tmux
     pkgs.vim
-    pkgs.utm
     pkgs.btop
     pkgs.zsh
   ];
