@@ -18,6 +18,8 @@
         modules = [
           ./home.nix
         ];
+        # Set home.homeDirectory only for Linux
+        home.homeDirectory = "/home/micah"; # Update if needed for Linux
       };
     };
 
