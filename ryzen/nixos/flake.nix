@@ -44,5 +44,14 @@
         ];
       };
     };
+      lxc = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs outputs envVars agenix; };
+        modules = [
+            ./configuration.nix
+            agenix.nixosModules.age
+            ./lxc.nix
+        ]
+      }
   };
 }
