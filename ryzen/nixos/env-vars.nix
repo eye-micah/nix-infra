@@ -5,7 +5,5 @@
 
     systemHostname = "ryzen";
 
-    adminUser = "micah";
-
-    
+    adminUser = "micah";  
 }
