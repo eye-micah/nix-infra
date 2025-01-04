@@ -4,11 +4,11 @@
         oci-containers.backend = "podman";
         oci-containers.containers = {
             hello = {
-                image = "docker.io/nginxdemos/hello"
+                image = "docker.io/nginxdemos/hello";
                 autoStart = true;
                 ports = [ "0.0.0.0:80:80" ];
-            }
-        }
+            };
+        };
         containers.enable = true;
         podman = {
             enable = true;
