@@ -14,9 +14,6 @@ in
 
   imports = [
     ./modules/disk-config.nix
-    # ./hardware-configuration.nix
-    #./modules/bootloader.nix
-    # ./modules/agenix.nix
     ./modules/zfs.nix
     # ./provision.nix 
     # (import ./provision.nix { inherit envVars pkgs inputs; })
