@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, config, lib, ... }:
 
 {
 
@@ -12,7 +12,6 @@
     i18n.defaultLocale = "en_US.UTF-8";
 
     # sound
-    sound.enable = true;
     security.rtkit.enable = true;
     services.pipewire = {
         enable = true;
@@ -47,13 +46,13 @@
   ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-id/nvme-TEAM_TM8FP4001T_112212200050346_1-part2";
-    fsType = "ext4";
+    device = lib.mkDefault "/dev/disk/by-id/nvme-TEAM_TM8FP4001T_112212200050346_1-part2";
+    fsType = lib.mkDefault "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-id/nvme-TEAM_TM8FP4001T_112212200050346_1-part1";
-    fsType = "vfat";
+    device = lib.mkDefault "/dev/disk/by-id/nvme-TEAM_TM8FP4001T_112212200050346_1-part1";
+    fsType = lib.mkDefault "vfat";
   };
 
   hardware = {
@@ -61,47 +60,49 @@
     enableRedistributableFirmware = true;
     cpu.intel.updateMicrocode = true;
     xone.enable = true;
-    pulseaudio.enable = false;
-    opengl = {
-        enable = true;
-        driSupport = true;
-        driSupport32Bit = true;
+    graphics.enable32Bit = true;
+    graphics.enable = true;
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = true;
+      powerManagement.finegrained = false;
+      open = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-    nvidia.modesetting.enable = true;
   };
 
   jovian = {
     hardware = {
       has.amd.gpu = false;
-      has.nvidia.gpu = true;
     };
     steam = {
       updater.splash = "vendor";
       enable = true;
       autoStart = true;
       user = "steamuser";
-      desktopSession = "plasma";
+      desktopSession = "gamescope-wayland";
     };
     steamos.useSteamOSConfig = true;
   };
 
   users = {
     users = {
-      steamuser = {
+      deck = {
         shell = pkgs.bash;
         uid = 1000;
         isSystemUser = true;
-        hashedPassword = "62aadf3934c5f4168df0c579e9fdb35cf0bd2cf722240fc1a0e36c65545e19a3​";
+        password = "deck";
         extraGroups = [
           "wheel"
           "video"
           "input"
         ];
-        group = "steamuser";
+        group = "deck";
       };
     };
     groups = {
-      steamuser = {
+      deck = {
         gid = 1000;
       };
     };

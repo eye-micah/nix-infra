@@ -15,6 +15,11 @@
             url = "github:Jovian-Experiments/Jovian-NixOS";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
+        disko = {
+            url = github:nix-community/disko;
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
     };
 
     description = "Deployment of NixOS configuration for gaming PC";
@@ -24,6 +29,7 @@
         nixpkgs, 
         home-manager,
         jovian, 
+        disko,
         ... 
     } @ inputs: let
         inherit (self) outputs;
@@ -45,6 +51,7 @@
 
                 modules = [
                     inputs.jovian.nixosModules.default
+                    inputs.disko.nixosModules.default
                     ./jovian-pc/configuration.nix
                     ./jovian-pc/boot.nix
                     ./jovian-pc/disko.nix
