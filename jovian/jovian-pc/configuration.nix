@@ -80,11 +80,15 @@
       updater.splash = "vendor";
       enable = true;
       autoStart = true;
-      user = "steamuser";
-      desktopSession = "gamescope-wayland";
+      user = "deck";
+      desktopSession = "plasma";
     };
     steamos.useSteamOSConfig = true;
   };
+
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   users = {
     users = {
@@ -93,6 +97,8 @@
         uid = 1000;
         isSystemUser = true;
         password = "deck";
+        createHome = true;
+        home = /home/deck;
         extraGroups = [
           "wheel"
           "video"
