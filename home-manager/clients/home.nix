@@ -44,18 +44,58 @@
   ## Link the actual zshrc from the Nix folder
 
   home.file.".zshenv".source = ./dotfiles/zshenv;
-  home.file.".zshrc".source = ./dotfiles/zshrc;
-  home.file.".zsh_plugins.txt".source = ./dotfiles/zsh_plugins.txt;
+  #home.file.".zshrc".source = ./dotfiles/zshrc;
+  #home.file.".zsh_plugins.txt".source = ./dotfiles/zsh_plugins.txt;
   home.file.".vimrc".source = ./dotfiles/vimrc;
   home.file.".p10k.zsh".source = ./dotfiles/p10k.zsh;
 
-  ## Aliases
+  # Enable Zsh shell for the user
   programs.zsh = {
+    enable = true;
+
+    # Set the desired options and configurations
+    shellAliases = {
+      rm = "rm -i";
+      switch = "darwin-rebuild switch --flake ~/git/nix-infra/home-manager/clients";
+    };
+
+    # Additional environment variables
+    initExtra = ''
+      export WINEFSYNC=1
+      export WINEESYNC=1
+      export HOMEBREW_NO_ANALYTICS=1
+      export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+
+      # Custom PATH setup (adjust as needed)
+      export PATH=/opt/homebrew/bin/:$HOME/.local/bin:/opt/local/bin:$HOME/Library/Python/3.9/bin:/usr/sbin:/sbin:$PATH
+
+      # Autoload functions
+      autoload -Uz bracketed-paste-magic
+      zle -N bracketed-paste bracketed-paste-magic
+
+      autoload -Uz url-quote-magic
+      zle -N self-insert url-quote-magic
+
+      # Extended glob setting
+      setopt extended_glob
+    '';
+
+    antidote = {
       enable = true;
-      shellAliases = {
-          switch = "darwin-rebuild switch --flake ~/.config/nix";
-      };
+      plugins = [''
+        romkatv/powerlevel10k
+        zsh-users/zsh-autosuggestions
+        zsh-users/zsh-history-substring-search
+        zsh-users/zsh-syntax-highlighting
+        rupa/z
+      '']; 
+    };
+
   };
 
+
+
+
 }
+
 
