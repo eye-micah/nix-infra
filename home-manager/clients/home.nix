@@ -8,6 +8,8 @@
     pkgs.vim
     pkgs.btop
     pkgs.zsh
+    pkgs.nerd-fonts.meslo-lg
+    pkgs.nerd-fonts.fira-code
   ];
 
   # Platform-specific adjustments
@@ -47,7 +49,7 @@
   #home.file.".zshrc".source = ./dotfiles/zshrc;
   #home.file.".zsh_plugins.txt".source = ./dotfiles/zsh_plugins.txt;
   home.file.".vimrc".source = ./dotfiles/vimrc;
-  #home.file.".p10k.zsh".source = ./dotfiles/p10k.zsh;
+  home.file.".p10k.zsh".source = ./dotfiles/p10k.zsh;
 
   # Enable Zsh shell for the user
   programs.zsh = {
@@ -61,6 +63,9 @@
 
     # Additional environment variables
     initExtra = ''
+
+      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
       export WINEFSYNC=1
       export WINEESYNC=1
       export HOMEBREW_NO_ANALYTICS=1
